@@ -22,7 +22,7 @@ function varargout = FishCuT(varargin)
 
 % Edit the above text to modify the response to help FishCuT
 
-% Last Modified by GUIDE v2.5 10-Jul-2016 22:54:35
+% Last Modified by GUIDE v2.5 18-Jul-2017 11:52:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -62,7 +62,7 @@ handles.output = hObject;
 guidata(hObject, handles);
 
 % UIWAIT makes FishCuT wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
+% uiwait(handles.handle1);
 
 
 % --- Outputs from this function are returned to the command line.
@@ -81,14 +81,21 @@ function StartButton_Callback(hObject, eventdata, handles)
 % hObject    handle to StartButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% handles    structure with handles and user data (see GUIDATA)
 ImageTypes = {...
     '*.dcm',...
-    'DICOM Files (*.dcm)'};
-[fileName, filePath] = uigetfile(ImageTypes,'Select Image File');
-thmlt = cell2mat(inputdlg('Enter Threshold Mutliplier: ','Thresholding',1,{'0.73'}));
+    'DICOM Files (*.dcm)';...
+    '*.jpg;*.png;*.tif',...
+    'Image Files (*.jpg,*.png,*.tif)'};
+ 
+[fileName, filePath, FilterIndex] = uigetfile(ImageTypes,'Select Image File');
 
-if ischar(fileName) && ischar(thmlt)
-    FishCuTScriptv1b(filePath,fileName,str2double(thmlt));
+parambool = ParameterCheck;
+
+if ischar(fileName) && strcmp(parambool, 'OK')
+    FishCuTScriptv1_1(filePath,fileName,FilterIndex);
+elseif strcmp(parambool, 'Back')
+    ChangeParameters
 end
 
 % --- Executes on button press in ExitButton.
@@ -106,3 +113,11 @@ function PreProcessButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 PreprocessImage
+
+
+% --- Executes on button press in handle1.
+function ChangeImaging_Callback(hObject, eventdata, handles)
+% hObject    handle to handle1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ChangeParameters

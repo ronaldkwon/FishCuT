@@ -1,0 +1,4 @@
+Resolution: 21
+Slope: 281.706
+Intercept: -195.402
+ThresholdMultiplier: 0.73

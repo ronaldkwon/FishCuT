@@ -112,7 +112,11 @@ switch FilterIndex
         I = load_nii([PathName filesep FileName]);
         I = I.img;
     case 3
-        I = imread([PathName filesep FileName]);
+        im_info = imfinfo([PathName filesep FileName]);
+        I(1:im_info(1).Height,1:im_info(1).Width,1:numel(im_info)) = 0;
+        for i=1:numel(im_info)
+            I(:,:,i) = imread([PathName filesep FileName],i);
+        end
 end
 
 if FilterIndex ~= 0
